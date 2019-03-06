@@ -5,10 +5,13 @@ class Product extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      addedToWishlist: false
+    };
 
     this.handleOptionChange = this.handleOptionChange.bind(this);
     this.handleQuantityChange = this.handleQuantityChange.bind(this);
+    this.handleAddedToWishlist = this.handleAddedToWishlist.bind(this);
     this.findImage = this.findImage.bind(this);
   }
 
@@ -53,6 +56,12 @@ class Product extends Component {
     });
   }
 
+  handleAddedToWishlist(resp){
+    this.setState({
+      addedToWishlist: true
+    });
+  }
+
   render() {
     let variantImage = this.state.selectedVariantImage || this.props.product.images[0].src
     let variant = this.state.selectedVariant || this.props.product.variants[0]
@@ -77,6 +86,9 @@ class Product extends Component {
           <input min="1" type="number" defaultValue={variantQuantity} onChange={this.handleQuantityChange}></input>
         </label>
         <button className="Product__buy button" onClick={() => this.props.addVariantToCart(variant.id, variantQuantity)}>Add to Cart</button>
+        <button style={{marginLeft: "5px"}} className="Product__buy button" onClick={() => this.props.addVariantToWishlist(this.props.product, variant.id, this.handleAddedToWishlist)}>
+          {this.state.addedToWishlist ? "Added to wishlist" : "Add to Wishlist"}
+        </button>
       </div>
     );
   }

@@ -7,6 +7,7 @@ class Products extends Component {
       return (
         <Product
           addVariantToCart={this.props.addVariantToCart}
+          addVariantToWishlist={this.props.addVariantToWishlist}
           checkout={this.props.checkout}
           key={product.id.toString()}
           product={product}

@@ -6,10 +6,10 @@ import typeBundle from './types';
 import '../../shared/app.css';
 
 export const client = new Client(typeBundle, {
-  url: 'https://graphql.myshopify.com/api/graphql',
+  url: 'https://hello-again-saumitra.myshopify.com/api/graphql',
   fetcherOptions: {
     headers: {
-      'X-Shopify-Storefront-Access-Token': 'dd4d4dc146542ba7763305d71d1b3d38'
+      'X-Shopify-Storefront-Access-Token': '64376fe3df39d2b6dd6aec5aa0781ed0'
     }
   }
 });

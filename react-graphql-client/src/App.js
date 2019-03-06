@@ -16,6 +16,7 @@ class App extends Component {
 
     this.handleCartClose = this.handleCartClose.bind(this);
     this.addVariantToCart = this.addVariantToCart.bind(this);
+    this.addVariantToWishlist = this.addVariantToWishlist.bind(this);
     this.updateQuantityInCart = this.updateQuantityInCart.bind(this);
     this.removeLineItemInCart = this.removeLineItemInCart.bind(this);
   }
@@ -78,6 +79,7 @@ class App extends Component {
               node {
                 id
                 title
+                handle
                 options {
                   name
                   values
@@ -89,6 +91,7 @@ class App extends Component {
                   }
                   edges {
                     node {
+                      id
                       title
                       selectedOptions {
                         name
@@ -122,6 +125,30 @@ class App extends Component {
         shop: res.model.shop,
         products: res.model.shop.products,
       });
+    });
+  }
+
+  getVariantObj(product, variantId){
+    return product.variants.filter(function(variant){
+      return (variant.id === variantId);
+    })[0];
+  }
+
+
+  addVariantToWishlist(product, variantId, callback){
+    var selectedVariant = this.getVariantObj(product, variantId);
+    var evtMap = {
+      empi: product.id,
+      epi: variantId,
+      pr: selectedVariant.price,
+      iu: selectedVariant.image.src,
+      du: "https://hello-again-saumitra.myshopify.com/" + product.handle,
+      dt: product.title,
+      uri: "https://hello-again-saumitra.myshopify.com/" + product.handle + "?variant=" + variantId
+    };
+    window._swat.addToWishList(evtMap, function(resp){
+      console.log(resp);
+      callback(resp);
     });
   }
 
@@ -286,6 +313,7 @@ class App extends Component {
         <Products
           products={this.state.products}
           addVariantToCart={this.addVariantToCart}
+          addVariantToWishlist={this.addVariantToWishlist}
         />
         <Cart
           checkout={this.state.checkout}
